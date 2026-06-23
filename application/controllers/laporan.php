@@ -20,7 +20,26 @@ class Laporan extends CI_Controller {
      */
     public function index() {
         $data['title'] = 'Laporan Sistem - Boraheal MC';
-        $data['stats'] = $this->Pendaftaran_model->get_stats();
+        
+        $bulan = $this->input->get('bulan');
+        $tahun = $this->input->get('tahun');
+        $status = $this->input->get('status');
+        
+        // Default to current month/year and 'all' status if not set
+        if ($bulan === null && $tahun === null) {
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
+        if ($status === null) {
+            $status = 'all';
+        }
+        
+        $data['selected_bulan'] = $bulan;
+        $data['selected_tahun'] = $tahun;
+        $data['selected_status'] = $status;
+        
+        $data['stats'] = $this->Pendaftaran_model->get_filtered_stats($bulan, $tahun);
+        $data['schedules'] = $this->Pendaftaran_model->get_filtered_schedules($bulan, $tahun, $status);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
@@ -35,8 +54,15 @@ class Laporan extends CI_Controller {
     public function ekspor_pdf() {
         require_once APPPATH . 'third_party/fpdf/fpdf.php';
 
-        $stats = $this->Pendaftaran_model->get_stats();
-        $schedules = $this->Pendaftaran_model->get_all_schedules();
+        $bulan = $this->input->get('bulan');
+        $tahun = $this->input->get('tahun');
+        $status = $this->input->get('status');
+        if ($status === null) {
+            $status = 'all';
+        }
+
+        $stats = $this->Pendaftaran_model->get_filtered_stats($bulan, $tahun);
+        $schedules = $this->Pendaftaran_model->get_filtered_schedules($bulan, $tahun, $status);
 
         // Create PDF instance
         $pdf = new FPDF('P', 'mm', 'A4');
@@ -50,6 +76,31 @@ class Laporan extends CI_Controller {
         $pdf->SetFont('Arial', 'I', 10);
         $pdf->SetTextColor(107, 114, 128); // Muted color
         $pdf->Cell(0, 5, 'Laporan Pendaftaran Pasien Rumah Sakit', 0, 1, 'C');
+
+        // Month names mapping
+        $month_names = array(
+            'all' => 'Semua Bulan',
+            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+            '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
+            '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
+        );
+        $periode = '';
+        if ($bulan && $bulan !== 'all') {
+            $periode .= $month_names[$bulan] . ' ';
+        } else {
+            $periode .= 'Semua Bulan ';
+        }
+        if ($tahun && $tahun !== 'all') {
+            $periode .= $tahun;
+        } else {
+            $periode .= 'Semua Tahun';
+        }
+
+        if ($status !== 'all') {
+            $periode .= ' (Status: ' . $status . ')';
+        }
+
+        $pdf->Cell(0, 5, 'Periode: ' . $periode, 0, 1, 'C');
         $pdf->Cell(0, 5, 'Tanggal Cetak: ' . date('d M Y H:i'), 0, 1, 'C');
         
         $pdf->Ln(10); // Spacer
@@ -97,7 +148,7 @@ class Laporan extends CI_Controller {
         
         // Schedule list section header
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(0, 8, 'DAFTAR JADWAL PENDAFTARAN PASIEN', 0, 1, 'L');
+        $pdf->Cell(0, 8, 'DAFTAR JADWAL PENDAFTARAN PASIEN (' . count($schedules) . ' data)', 0, 1, 'L');
         $pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY());
         $pdf->Ln(4);
         
@@ -141,7 +192,14 @@ class Laporan extends CI_Controller {
      * Export Reports to CSV
      */
     public function ekspor_csv() {
-        $schedules = $this->Pendaftaran_model->get_all_schedules();
+        $bulan = $this->input->get('bulan');
+        $tahun = $this->input->get('tahun');
+        $status = $this->input->get('status');
+        if ($status === null) {
+            $status = 'all';
+        }
+
+        $schedules = $this->Pendaftaran_model->get_filtered_schedules($bulan, $tahun, $status);
 
         $filename = 'Laporan_Pendaftaran_' . date('Ymd_His') . '.csv';
 

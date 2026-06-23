@@ -93,32 +93,66 @@
     </div>
 </div>
 
+<!-- Modern Action Cards Row (Replacing "Aksi Cepat" list and blue info card) -->
 <div class="row g-4">
-    <!-- Quick Shortcuts Card -->
-    <div class="col-lg-6">
+    <!-- Kelola Data Pasien Card -->
+    <div class="col-md-4">
         <div class="card border-0 shadow-sm card-stat h-100">
-            <div class="card-body p-4">
-                <h5 class="fw-bold mb-3"><i class="fa-solid fa-bolt me-2 text-warning"></i>Aksi Cepat</h5>
-                <p class="text-muted">Akses langsung fitur utama administrasi:</p>
-                <div class="d-grid gap-2">
-                    <a href="<?php echo base_url('admin/pasien'); ?>" class="btn btn-outline-primary py-2.5 text-start fw-semibold"><i class="fa-solid fa-user-injured me-2"></i> Kelola Database Pasien</a>
-                    <a href="<?php echo base_url('admin/jadwal'); ?>" class="btn btn-outline-secondary py-2.5 text-start fw-semibold"><i class="fa-solid fa-calendar-day me-2"></i> Kelola Jadwal & Persetujuan</a>
-                    <a href="<?php echo base_url('admin/laporan'); ?>" class="btn btn-outline-info py-2.5 text-start fw-semibold"><i class="fa-solid fa-chart-line me-2"></i> Ringkasan Laporan & Ekspor Data</a>
+            <div class="card-body p-4 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="text-primary bg-primary bg-opacity-10 p-3 rounded-3 d-inline-block mb-3">
+                        <i class="fa-solid fa-user-injured fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Kelola Data Pasien</h5>
+                    <p class="text-muted small mb-0">Kelola database pasien, registrasi akun pasien baru, serta perbarui data profil medis pasien secara terpusat.</p>
+                </div>
+                <div class="mt-4">
+                    <a href="<?php echo base_url('admin/pasien'); ?>" class="btn btn-outline-primary w-100 py-2.5 fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <span>Kelola Pasien</span>
+                        <i class="fa-solid fa-arrow-right small"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Welcome Panel -->
-    <div class="col-lg-6">
-        <div class="card border-0 shadow-sm card-stat h-100 bg-primary text-white">
+    <!-- Jadwal Pendaftaran Card -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm card-stat h-100">
             <div class="card-body p-4 d-flex flex-column justify-content-between">
                 <div>
-                    <h4 class="fw-bold mb-2">Hospital Admin Center</h4>
-                    <p class="text-white-50">Anda masuk sebagai Administrator. Anda memiliki hak akses penuh untuk mendaftarkan pasien baru, menyetujui atau menolak permohonan pendaftaran kunjungan dokter, dan mengekspor laporan bulanan.</p>
+                    <div class="text-secondary bg-secondary bg-opacity-10 p-3 rounded-3 d-inline-block mb-3">
+                        <i class="fa-solid fa-calendar-check fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Jadwal Pendaftaran</h5>
+                    <p class="text-muted small mb-0">Lihat permohonan pendaftaran kunjungan pasien, serta setujui atau tolak jadwal konsultasi dokter.</p>
                 </div>
-                <div class="text-end">
-                    <i class="fa-solid fa-shield-halved fa-5x text-white-50 opacity-25"></i>
+                <div class="mt-4">
+                    <a href="<?php echo base_url('admin/jadwal'); ?>" class="btn btn-outline-primary w-100 py-2.5 fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <span>Kelola Jadwal</span>
+                        <i class="fa-solid fa-arrow-right small"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Laporan Card -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm card-stat h-100">
+            <div class="card-body p-4 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="text-info bg-info bg-opacity-10 p-3 rounded-3 d-inline-block mb-3">
+                        <i class="fa-solid fa-chart-line fa-2x text-info"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Laporan</h5>
+                    <p class="text-muted small mb-0">Lihat statistik klinis, pratinjau pendaftaran kunjungan bulanan, dan ekspor data ke format PDF/CSV.</p>
+                </div>
+                <div class="mt-4">
+                    <a href="<?php echo base_url('admin/laporan'); ?>" class="btn btn-outline-primary w-100 py-2.5 fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <span>Buka Laporan</span>
+                        <i class="fa-solid fa-arrow-right small"></i>
+                    </a>
                 </div>
             </div>
         </div>
